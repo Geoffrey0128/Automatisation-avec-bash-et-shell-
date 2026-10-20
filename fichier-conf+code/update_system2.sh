@@ -1,5 +1,5 @@
 #!/bin/bash
-source ./confing.cfg
+source ./config.cfg
 #CREATION DU DOSSIER LOG_UPDATE
 mkdir ./Log_update
 
@@ -22,7 +22,16 @@ sudo rm -r update_log.txt update_error.log
 echo  $STOPDATE >> date_update_log.txt 
 echo $STOPDATE >> date_error_log.log
 
+FICHIER="date_error_log.log"
+
+if [ -s "$FICHIER" ]; then
+    mail -s "Alerte : $FICHIER contient des données" geoffreyelusue7@gmail.com < "$FICHIER"
+fi
+
+
 mv date_update_log.txt Log_update/
 mv date_error_log.log Log_update/
+
+
 
 exit

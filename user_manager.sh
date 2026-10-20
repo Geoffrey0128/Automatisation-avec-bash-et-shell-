@@ -8,17 +8,25 @@ if [ $# -eq 0 ]; then
    echo " -l  : Affichage de la liste d'utilisateur"
 fi
 
+OPTS=$(getopt -o "a:d:l" --long "add:,del:,list" -- "$@")
+eval set -- "$OPTS"
 
-while getopts "a:d:l" options;do 
-    case $options in
-        a) echo -e "$(date) \e[32m[Création de l'utilisateur]\e[0m $OPTARG"
-           sudo useradd $OPTARG;;
+while true;do
+    case $1 in
+        -a|--add) echo -e "$(date) \e[32m[Création de l'utilisateur]\e[0m $OPTARG"
+           sudo useradd $2
+           shift 2;;
 
-        d) echo -e "$(date) \e[32m[Suppression de l'utilisateur]\e[0m  $OPTARG"
-           sudo userdel $OPTARG;;
+        -d|--del) echo -e "$(date) \e[32m[Suppression de l'utilisateur]\e[0m  $OPTARG"
+           sudo userdel $2
+           shift 2;;
 
-        l) echo -e "\e[32m[Affichage de la liste d'utilisateur ]\e[0m "
-           awk -F: '$3 >= 1000 {print $1}' /etc/passwd;;
+        -l|--list) echo -e "\e[32m[Affichage de la liste d'utilisateur ]\e[0m "
+           awk -F: '$3 >= 1000 {print $1}' /etc/passwd
+	   shift;;
+
+        --) shift
+           break;;
 
         *) echo -e "\e[32m[OPTION INVALIDE]\e[0m "
            echo -e "\e[32m[OPTION VALIDE : ]\e[0m"

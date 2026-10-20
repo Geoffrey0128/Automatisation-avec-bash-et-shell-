@@ -25,7 +25,7 @@ else
 
 
     #DEPLACEMENT DES FICHIER ARCHIVER DANS LA DOSSIER BACKUP/LOGS
-    for file in $(find ~/Creation_de_script -type f -name "*.tar.gz"); do
+    for file in $(find . -type f -name "*.tar.gz"); do
       sudo mv $NAME_ARCHIVE $BACKUP_DIR
     done
 
